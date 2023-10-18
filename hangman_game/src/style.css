@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+  
+button {
+    cursor: pointer;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 200px auto;
+    background-color: #282626;
+    color: #A79E9E;
+}
+
+#game-title {
+    font-size: 50px;
+}
+
+#quiz-part {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    width: 800px;
+    height: 100px;
+    background-color: #4B4646;
+    color: #EAEAEA;
+    font-size: 30px;
+    border-radius: 20px;
+}
+
+#result-info {
+    font-size: 20px;
+    margin: 0 auto 50px;
+}
+
+#game-button {
+    font-size: 20px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #735086;
+    color: #EAEAEA;
+}
