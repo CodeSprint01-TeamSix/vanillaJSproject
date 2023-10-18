@@ -1,0 +1,64 @@
+@import url(./reset.css);
+
+body {
+    background-color: #1a161e;
+}
+
+#wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top:200px;
+    height:500px;
+    padding: 100px 0;
+    text-align: center;
+}
+
+
+h1 {
+    font-size: 35px;
+    font-weight: 600;
+    color:#68656b;
+    letter-spacing: 25px;
+}
+
+.mission {
+    font-size:30px;
+    letter-spacing: 5px;
+    background-color: #3d393f;
+    width: 100%;
+    max-width: 1000px;
+    margin: 30px auto 0;
+    padding:30px 0;
+    border-radius: 22px;
+    text-align: center;
+    color:#938b9b;
+}
+.mission span {
+    display: inline-block;
+    text-align: center;
+    border-bottom: 3px solid #938b9b;
+    width: 50px;
+    height: 40px;
+}
+
+h4 {
+    margin-top: 25px;
+    color:#68656b;
+    font-weight: 600;
+    font-size:20px;
+}
+
+button {
+    margin-top: 50px;
+    border: 0;
+    outline: 0;
+    font-size:23px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color:#ffffff;
+    background-color: #5f427d;
+    cursor: pointer;
+}
+
+
