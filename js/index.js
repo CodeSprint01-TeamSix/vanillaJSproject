@@ -6,11 +6,13 @@
 //여기서 문제점 입력값과 일치할 경우 글자 오픈은 되는데
 
 const missionElement = $('.mission');
+const life = $('h4');
 
 /* 문장 저장 */
 const missionWord = {
     inputWord: "",
     newInputWord: "",
+    myLife: 5,
 };
 
 
@@ -29,17 +31,35 @@ const createJsonWords = async () => {
     return mission;
 }
 
+/* 라이프 생성 */
+const createLife = () => {
+    if(missionWord.myLife > 1) {
+        missionWord.myLife--;
+    } else {
+        alert('gameover');
+        missionWord.myLife = 5;
+        handleClick(); /* 게임오버 후 리셋 */
+    }
+    life.innerText = `Guesses left: ${missionWord.myLife}`;
+}
+/* 성공시 글자 오픈 */ 
+const successText = (inputWord, upperKey) => {
+    for(let i = 0; i < inputWord.length; i++) {
+        if(inputWord[i] === upperKey) {
+            missionElement.innerHTML = "";
+            createQuiz(inputWord, i);
+        }  
+    }
+}
+
 /* 퀴즈 생성 */
 const createQuiz = (data, space = null) => {
-  
     const {newInputWord} = missionWord;
-    
     let changeWord = "";
     data.split("").map((word, index) => {
         const divElement = document.createElement('div')
         divElement.classList.add('word');
         /* 출력문자 물음표로 변경 */
-     
         let replaceStar = "";
         if(word !== " ") {
             replaceStar = word.replace(word, '?'); 
@@ -56,19 +76,26 @@ const createQuiz = (data, space = null) => {
         divElement.innerHTML = `<h3>${replaceStar}</h3><span></span>`;
         missionElement.append(divElement);
     })
-
     missionWord.newInputWord = changeWord;
 }
 
-/* 키입력 시 글자 오픈 */
+/* 키입력 컨트롤 */
 const handleKeydown = (event) => {
     const {inputWord, newInputWord} = missionWord;
     const {key} = event;
-    const upperKey = key.toUpperCase()
+    const upperKey = key.toUpperCase();
 
-    const indexNumber = inputWord.indexOf(upperKey)
-    missionElement.innerHTML = "";
-    createQuiz(inputWord, indexNumber);
+    const indexNumber = inputWord.indexOf(upperKey);
+    indexNumber < 0 ? createLife() : successText(inputWord, upperKey);
+    setTimeout(() => {
+        if(missionWord.newInputWord !== "" && missionWord.newInputWord.indexOf("?") <= -1) {
+            alert('미션성공');
+            missionWord.myLife = 5;
+            life.innerText = `Guesses left: ${missionWord.myLife}`;
+            handleClick();
+        }
+    },1)
+    
 }
 
 /* 리셋 클릭 했을 때 글자 생성 */
@@ -79,6 +106,8 @@ const handleClick = async () => {
     const mission = await createJsonWords();
     createQuiz(mission);
 }
+
+
 
 handleClick(); /* 게임 시작 첫화면 글자 랜더링 */
 
