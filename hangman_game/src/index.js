@@ -12,10 +12,13 @@ async function getRandomWord() {
 }
 
 let leftNumber = 5; // 초기 남은 기회 수
+const guessesLeft = document.getElementById("result-info");
 
 // 이벤트 핸들러로 불러오는 행맨 게임 시작 함수
 function startHangman() {
   leftNumber = 5; // 게임 시작 시 초기화
+  guessesLeft.innerHTML = `Guesses Left : <span id="left-number">${leftNumber}</span>`;
+
   getRandomWord().then((word) => {
     const startButton = document.getElementById("game-button");
     const quizPart = document.getElementById("quiz-part");
@@ -40,27 +43,27 @@ function startHangman() {
 // 키 다운 시 게임 작동 함수
 function guessingWord(event, word, quizPart) {
   const keyPressed = event.key.toLowerCase();
-  const guessesLeft = document.getElementById("result-info");
   const leftNumberElement = document.getElementById("left-number");
+  const hiddenWordArray = quizPart.textContent.split("");
+  let found = false;
   let numLeftNumber = parseInt(leftNumberElement.textContent); // leftNumber를 숫자로 변환
 
   if (word.includes(keyPressed)) {
-    const hiddenWordArray = quizPart.textContent.split("");
-    let found = false;
     for (let i = 0; i < word.length; i++) {
       if (word[i] === keyPressed) {
         hiddenWordArray[i] = keyPressed;
         found = true;
       }
     }
-    if (!found && numLeftNumber > 0) {
-      numLeftNumber -= 1;
-      leftNumberElement.textContent = numLeftNumber;
-    } else if (!found && numLeftNumber === 0) {
-      guessesLeft.textContent = "Game Over";
-    }
-    quizPart.textContent = hiddenWordArray.join("");
+  } else if (!found && numLeftNumber > 0) {
+    numLeftNumber -= 1;
+    leftNumberElement.textContent = numLeftNumber;
+    console.log(found);
+  } else if (!found && numLeftNumber === 0) {
+    guessesLeft.textContent = "Game Over";
+    //startHangman();
   }
+  quizPart.textContent = hiddenWordArray.join("");
 }
 
 gameButton.addEventListener("click", startHangman);
