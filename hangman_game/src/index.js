@@ -12,9 +12,33 @@ async function getRandomWord() {
   }
 }
 
+// const getRandomWord = async () => {
+//   function getRandom(min, max) {
+//     return Math.floor(Math.random() * (max - min + 1) + min);
+//   }
+
+//   const wordCount = getRandom(1, 9);
+
+//   const response = await fetch(
+//     `http://puzzle.mead.io/puzzle?wordCount=${wordCount}`
+//   );
+//   if (response.status === 200) {
+//     const data = await response.json();
+//     return data.puzzle.toLowerCase();
+//   } else {
+//     throw new Error("unable to get puzzle");
+//   }
+// };
+
 let leftNumber = 5; // 초기 남은 기회 수
 let newWord = "";
 const guessesLeft = document.getElementById("result-info");
+const startButton = document.getElementById("game-button");
+
+// 영문 키만 입력 제한
+const isAlphabet = (event) => {
+  return event.keyCode >= 65 && event.keyCode <= 122;
+};
 
 // 이벤트 핸들러로 불러오는 행맨 게임 시작 함수
 function startHangman() {
@@ -22,62 +46,56 @@ function startHangman() {
   guessesLeft.innerHTML = `Guesses Left : <span id="left-number">${leftNumber}</span>`;
 
   getRandomWord().then((word) => {
-    console.log(`데이터 가져오기 ${word}`);
-    const startButton = document.getElementById("game-button");
-
+    console.log(`정답은 ${word} 입니다.`);
     if (word) {
-      console.log(`조건쪽 word는${word}`);
       const displayWord = word
         .split("")
         .map((char) => {
           return char === " " ? " " : "ㅡ";
         })
         .join("");
-      console.log(displayWord);
       quizPart.textContent = displayWord;
       newWord = word;
     }
 
-    startButton.textContent = "Reset";
+    startButton.textContent = "RESET";
   });
 }
 
 // 키 다운 시 게임 작동 함수
 function guessingWord(event, word, quizPart) {
-  console.log(word.split(""));
   const keyPressed = event.key.toLowerCase();
   const leftNumberElement = document.getElementById("left-number");
   const hiddenWordArray = quizPart.textContent.split("");
-  console.log(hiddenWordArray);
+
   let found = false;
   let numLeftNumber = parseInt(leftNumberElement.textContent); // leftNumber를 숫자로 변환
 
   if (word.includes(keyPressed)) {
     for (let i = 0; i < word.length; i++) {
       if (word[i] == keyPressed) {
-        console.log(
-          `word는 ${word[i]}, hiddenWordArray는 ${hiddenWordArray[i]}, index=${i}`
-        );
         hiddenWordArray[i] = word[i];
         found = true;
       }
     }
-  } else if (!found && numLeftNumber > 0) {
+  } else if (!found && numLeftNumber > 1) {
     numLeftNumber -= 1;
     leftNumberElement.textContent = numLeftNumber;
-    console.log(found);
-  } else if (!found && numLeftNumber === 0) {
-    guessesLeft.textContent = "Game Over";
-    //startHangman();
+  } else if (!found && numLeftNumber === 1) {
+    guessesLeft.textContent = "GAME OVER";
+    startButton.textContent = "RESTART";
   }
+  if (hiddenWordArray.every((c) => c !== "ㅡ")) {
+    guessesLeft.textContent = "YOU WIN!";
+  }
+
   quizPart.textContent = hiddenWordArray.join("");
 }
 
-// gameover 카운트 오류 해결
-// 다 맞췄을 때 성공 메세지
-// 다른 키 입력 제한 추가
-
+// 이벤트 핸들러
 gameButton.addEventListener("click", startHangman);
 window.addEventListener("keydown", (event) => {
-  guessingWord(event, newWord, quizPart);
+  if (isAlphabet(event)) {
+    guessingWord(event, newWord, quizPart);
+  }
 });
