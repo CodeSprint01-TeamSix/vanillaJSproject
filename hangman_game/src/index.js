@@ -71,10 +71,12 @@ function guessingWord(event, word, quizPart) {
   let found = false;
   let numLeftNumber = parseInt(leftNumberElement.textContent); // leftNumber를 숫자로 변환
 
-  if (word.includes(keyPressed)) {
-    for (let i = 0; i < word.length; i++) {
-      if (word[i] == keyPressed) {
-        hiddenWordArray[i] = word[i];
+  const newWord = word; // word 변수를 newWord 변수에 복사
+
+  if (newWord.includes(keyPressed)) {
+    for (let i = 0; i < newWord.length; i++) {
+      if (newWord[i] == keyPressed) {
+        hiddenWordArray[i] = newWord[i];
         found = true;
       }
     }
