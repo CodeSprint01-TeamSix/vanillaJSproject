@@ -37,7 +37,9 @@ const startButton = document.getElementById("game-button");
 
 // 영문 키만 입력 제한
 const isAlphabet = (event) => {
-  return event.keyCode >= 65 && event.keyCode <= 122;
+  const key = event.key.toLowerCase();
+  const regex = /[a-zA-Z]/;
+  return regex.test(key);
 };
 
 // 이벤트 핸들러로 불러오는 행맨 게임 시작 함수
@@ -97,7 +99,10 @@ function guessingWord(event, word, quizPart) {
 // 이벤트 핸들러
 gameButton.addEventListener("click", startHangman);
 window.addEventListener("keydown", (event) => {
-  if (isAlphabet(event)) {
+  if (!isAlphabet(event)) {
+    event.preventDefault();
+    return;
+  } else {
     guessingWord(event, newWord, quizPart);
   }
 });
