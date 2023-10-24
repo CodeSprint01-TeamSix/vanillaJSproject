@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+}
+.Screen {
+  width: 100%;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Container {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.QuizContainer {
+  width: 800px;
+  padding: 20px 70px;
+  border-radius: 10px;
+  background-color: gray;
+  text-align: center;
+}
+
+.QuizContent {
+  font-size: 27px;
+  letter-spacing: 10px;
+}
+
+button {
+  width: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(80, 54, 103);
+  font-size: 20px;
+  color: white;
+}
