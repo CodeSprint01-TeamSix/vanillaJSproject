@@ -36,19 +36,12 @@ const createJsonWords = async () => {
 const createLife = () => {
     if(missionWord.myLife > 0) {
         missionWord.myLife--;
-        if(missionWord.myLife === 0) {
-            setTimeout(() => {
-                alert('gameover');
-                missionWord.myLife = 5;
-                handleClick(); /* 게임오버 후 리셋 */
-            },1)
-        }
     }
-    checkLife(); 
+    checkLife();
 }
 
 const checkLife = () => {
-    return life.innerText = `Guesses left: ${missionWord.myLife}`;
+    return life.innerText = missionWord.myLife !== 0 ? `Guesses left: ${missionWord.myLife}` : "GAME OVER";
 }
 
 
@@ -114,6 +107,8 @@ const handleClick = async () => {
     missionWord.inputWord = "";
     missionWord.newInputWord = "";
     missionElement.innerHTML = "";
+    missionWord.myLife = 5;
+    checkLife();
     const mission = await createJsonWords();
     createQuiz(mission);
 }
