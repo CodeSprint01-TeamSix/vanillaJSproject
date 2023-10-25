@@ -19,6 +19,7 @@ const missionWord = {
 function $(selector) {
     return document.querySelector(selector);
 }
+
 /* 데이터 생성 */
 const createJsonWords = async () => {
     const response = await fetch('../world.json');
@@ -33,15 +34,24 @@ const createJsonWords = async () => {
 
 /* 라이프 생성 */
 const createLife = () => {
-    if(missionWord.myLife > 1) {
+    if(missionWord.myLife > 0) {
         missionWord.myLife--;
-    } else {
-        alert('gameover');
-        missionWord.myLife = 5;
-        handleClick(); /* 게임오버 후 리셋 */
+        if(missionWord.myLife === 0) {
+            setTimeout(() => {
+                alert('gameover');
+                missionWord.myLife = 5;
+                handleClick(); /* 게임오버 후 리셋 */
+            },1)
+        }
     }
-    life.innerText = `Guesses left: ${missionWord.myLife}`;
+    checkLife(); 
 }
+
+const checkLife = () => {
+    return life.innerText = `Guesses left: ${missionWord.myLife}`;
+}
+
+
 /* 성공시 글자 오픈 */ 
 const successText = (inputWord, upperKey) => {
     for(let i = 0; i < inputWord.length; i++) {
@@ -56,6 +66,7 @@ const successText = (inputWord, upperKey) => {
 const createQuiz = (data, space = null) => {
     const {newInputWord} = missionWord;
     let changeWord = "";
+    console.log(missionWord.inputWord)
     data.split("").map((word, index) => {
         const divElement = document.createElement('div')
         divElement.classList.add('word');
