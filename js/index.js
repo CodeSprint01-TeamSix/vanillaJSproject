@@ -59,7 +59,7 @@ const successText = (inputWord, upperKey) => {
 const createQuiz = (data, space = null) => {
     const {newInputWord} = missionWord;
     let changeWord = "";
-    console.log(missionWord.inputWord)
+    console.log(missionWord.inputWord)/* test 답 콘솔확인 */
     data.split("").map((word, index) => {
         const divElement = document.createElement('div')
         divElement.classList.add('word');
