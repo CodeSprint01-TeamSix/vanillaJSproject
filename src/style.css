@@ -33,12 +33,14 @@ h1 {
 }
 
 #wordSpotlight {
-  display: relative;
+  display: flex;
   margin: 80px 0 40px 0;
   background-color: #363239;
   height: 100px;
   width: 800px;
   border-radius: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 p {
