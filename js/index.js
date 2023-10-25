@@ -87,19 +87,29 @@ const createQuiz = (data, space = null) => {
 const handleKeydown = (event) => {
     const {inputWord, newInputWord} = missionWord;
     const {key} = event;
-    const upperKey = key.toUpperCase();
-
-    const indexNumber = inputWord.indexOf(upperKey);
-    indexNumber < 0 ? createLife() : successText(inputWord, upperKey);
-    setTimeout(() => {
-        if(missionWord.newInputWord !== "" && missionWord.newInputWord.indexOf("?") <= -1) {
-            alert('미션성공');
-            missionWord.myLife = 5;
-            life.innerText = `Guesses left: ${missionWord.myLife}`;
-            handleClick();
-        }
-    },1)
     
+    if(isCheckEnglish(key)) {
+        const upperKey = key.toUpperCase();
+        const indexNumber = inputWord.indexOf(upperKey);
+        indexNumber < 0 ? createLife() : successText(inputWord, upperKey);
+        setTimeout(() => {
+            if(missionWord.newInputWord !== "" && missionWord.newInputWord.indexOf("?") <= -1) {
+                alert('미션성공');
+                missionWord.myLife = 5;
+                life.innerText = `Guesses left: ${missionWord.myLife}`;
+                handleClick();
+            }
+        },1)
+    } else {
+        event.preventDefault();
+    }
+    
+}
+
+/* 영문 제외한 나머지 키 입력 체크 */
+const isCheckEnglish = (key) => {
+    const pattern = /^[a-zA-Z]$/
+    return pattern.test(key);
 }
 
 /* 리셋 클릭 했을 때 글자 생성 */
